@@ -120,6 +120,7 @@ for i:=1 to 3 do
       mmo1.Lines.Append(Format('创建测试表 [table%d] 失败：',[e.Message]));
     end;
   end;
+con1.Database:='wyhHugeDB';
 end;
 
 procedure TForm1.actAddRecordExecute(Sender: TObject);
@@ -131,6 +132,7 @@ var tmpString:String;
     vchr1,vchr2:WideString;
 begin
   if not isConnect then Exit;
+  con1.Database:='wyhHugeDB';
   Randomize;
   rzstspn1.Caption :='';
   myqry1.Close;
@@ -174,13 +176,14 @@ procedure TForm1.actSumExecute(Sender: TObject);//统计总记录数
 var i,m:Integer;
 begin
   if not isConnect then Exit;
+  con1.Database:='wyhHugeDB';
   for i:=1 to 3 do
     begin
     myqry1.Close;
     myqry1.SQL.Text:=Format('select count(*) from table%d',[i]);
     myqry1.open;
-    m:=myqry1.Fields[0].asInteger;
-    mmo1.Lines.Append(Format('表[table%d]总记录数：%d 万条。',[m div 10000]));
+    m:=myqry1.Fields[0].asInteger div 10000;
+    mmo1.Lines.Append(Format('表[table%d]总记录数：%d 万条。',[i,m]));
     end;
 end;
 
